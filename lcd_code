@@ -1,0 +1,102 @@
+#include <Wire.h> 
+#include <LiquidCrystal_I2C.h>
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+
+
+int speedbrk= 4;
+int railway= 15;
+int school= 18;
+int constr= 19;
+
+int moter1pin =13;
+int moter2pin =14;
+int moter1pinpwm =12;
+
+void setup() 
+{
+  // put your setup code here, to run once:
+
+
+  pinMode(speedbrk, INPUT);
+  pinMode(railway, INPUT);
+  pinMode(school, INPUT);
+  pinMode(constr, INPUT);
+  pinMode(moter1pin, OUTPUT);
+  pinMode(moter1pinpwm, OUTPUT);
+  pinMode(moter2pin, OUTPUT);
+  
+	lcd.begin();
+  Serial.begin(9600);
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("Sign Board Speed");
+  lcd.setCursor(0,1);
+  lcd.print(" Controlled Robot  ");
+  delay(3000);
+  lcd.clear();
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+
+int speedbrkval =digitalRead(speedbrk);
+int railwayval =digitalRead(railway);
+int schoolval =digitalRead(school);
+int constrval =digitalRead(constr);
+
+digitalWrite(moter1pin,HIGH);
+digitalWrite(moter2pin,LOW);
+analogWrite(moter1pinpwm,255);
+
+
+ if(speedbrkval==1)
+{
+  lcd.setCursor(0,0);
+  lcd.print("Sign:SpeedBrk Detcetd");
+  lcd.setCursor(0,1);
+  lcd.print("Speed Lim: 20 KMPH ");
+  analogWrite(moter1pinpwm,150);
+  delay(10000);
+
+}
+else if(railwayval==1)
+{
+  lcd.setCursor(0,0);
+  lcd.print("Sign:Railway S Detcetd");
+  lcd.setCursor(0,1);
+  lcd.print("Speed Lim: 40 KMPH ");
+  analogWrite(moter1pinpwm,150);
+  delay(10000);
+
+}
+else if(schoolval==1)
+{
+  lcd.setCursor(0,0);
+  lcd.print("Sign:School Detcetd");
+  lcd.setCursor(0,1);
+  lcd.print("Speed Lim: 30 KMPH ");
+  analogWrite(moter1pinpwm,150);
+  delay(10000);
+
+}
+else if(constrval==1)
+{
+  lcd.setCursor(0,0);
+  lcd.print("Sign:Construction Detcetd");
+  lcd.setCursor(0,1);
+  lcd.print("Speed Lim: 10 KMPH ");
+  analogWrite(moter1pinpwm,150);
+  delay(10000);
+
+}
+else
+{
+  lcd.setCursor(0,0);
+  lcd.print("Scaning The Sign");
+  lcd.setCursor(0,1);
+  lcd.print("Board             ");
+  delay(5);
+}
+
+
+}
